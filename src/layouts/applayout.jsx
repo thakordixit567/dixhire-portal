@@ -1,10 +1,13 @@
 import React from 'react'
 import { Outlet } from 'react-router-dom'
+import './../App.css'
 
 const Applayout = () => {
   return (
     <div>
-      AppLayout
+      <div className='grid-background'>
+        
+      </div>
       <Outlet/>
     </div>
   )
