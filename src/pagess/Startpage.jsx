@@ -2,7 +2,7 @@ import React from 'react'
 
 const Startpage = () => {
   return (
-    <div className=' '>Startpage</div>
+    <div className=''>Startpage</div>
   )
 }
 

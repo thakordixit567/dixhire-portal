@@ -2,10 +2,10 @@
 module.exports = {
 	darkMode: ["class"],
 	content: [
-	  "./pagess/**/*.{js,jsx}",
-	  "./components/**/*.{js,jsx}",
-	  "./app/**/*.{js,jsx}",
-	  "./src/**/*.{js,jsx}",
+	  "./pagess/**/*.{js, ts,jsx, tsx}",
+	  "./components/**/*.{js, ts,jsx, tsx}",
+	  "./app/**/*.{js, ts,jsx, tsx}",
+	  "./src/**/*.{js, ts,jsx, tsx}",
 	],
 	prefix: "",
 	theme: {
@@ -24,8 +24,8 @@ module.exports = {
 		  background: "hsl(var(--background))",
 		  foreground: "hsl(var(--foreground))",
 		  primary: {
-			DEFAULT: "hsl(var(--primary))",
-			foreground: "hsl(var(--primary-foreground))",
+			DEFAULT: "hsla(var(--primary))",
+          foreground: "hsla(var(--primary-foreground))",
 		  },
 		  secondary: {
 			DEFAULT: "hsl(var(--secondary))",
