@@ -1,24 +1,24 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-	darkMode: ["class"], // Enables dark mode by toggling a "class"
+	darkMode: ["class"],
 	content: [
-	  "./pagess/**/*.{js,jsx}", // Fixed typo: 'pagess' to 'pages'
+	  "./pagess/**/*.{js,jsx}",
 	  "./components/**/*.{js,jsx}",
 	  "./app/**/*.{js,jsx}",
 	  "./src/**/*.{js,jsx}",
 	],
-	prefix: "", // Prefix for Tailwind classes (left empty as no customization is specified)
+	prefix: "",
 	theme: {
 	  container: {
-		center: true, // Centers the container by default
-		padding: "2rem", // Default padding for the container
+		center: true,
+		padding: "2rem",
 		screens: {
-		  "2xl": "1400px", // Defines max-width for the '2xl' breakpoint
+		  "2xl": "1400px",
 		},
 	  },
 	  extend: {
 		colors: {
-		  border: "hsl(var(--border))", // Uses custom CSS variable
+		  border: "hsl(var(--border))",
 		  input: "hsl(var(--input))",
 		  ring: "hsl(var(--ring))",
 		  background: "hsl(var(--background))",
@@ -53,9 +53,9 @@ module.exports = {
 		  },
 		},
 		borderRadius: {
-		  lg: "var(--radius)", // Large radius defined by variable
-		  md: "calc(var(--radius) - 2px)", // Medium radius calculated from the base
-		  sm: "calc(var(--radius) - 4px)", // Small radius calculated from the base
+		  lg: "var(--radius)",
+		  md: "calc(var(--radius) - 2px)",
+		  sm: "calc(var(--radius) - 4px)",
 		},
 		keyframes: {
 		  "accordion-down": {
@@ -73,8 +73,5 @@ module.exports = {
 		},
 	  },
 	},
-	plugins: [
-	  require("tailwindcss-animate"), // Plugin for animations
-	],
+	plugins: [require("tailwindcss-animate")],
   };
-  
