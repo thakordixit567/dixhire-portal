@@ -9,6 +9,7 @@ module.exports = {
 	],
 	prefix: "",
 	theme: {
+		
 	  container: {
 		center: true,
 		padding: "2rem",
@@ -16,7 +17,11 @@ module.exports = {
 		  "2xl": "1400px",
 		},
 	  },
-	  extend: {
+	 
+	  extend:  {
+		fontfamily : {
+			primary: ['Bokor', "sans-serif"]
+		  },
 		colors: {
 		  border: "hsl(var(--border))",
 		  input: "hsl(var(--input))",
@@ -51,7 +56,9 @@ module.exports = {
 			DEFAULT: "hsl(var(--card))",
 			foreground: "hsl(var(--card-foreground))",
 		  },
+		  
 		},
+		
 		borderRadius: {
 		  lg: "var(--radius)",
 		  md: "calc(var(--radius) - 2px)",
@@ -71,7 +78,9 @@ module.exports = {
 		  "accordion-down": "accordion-down 0.2s ease-out",
 		  "accordion-up": "accordion-up 0.2s ease-out",
 		},
+		
 	  },
+	  
 	},
 	plugins: [require("tailwindcss-animate")],
   };

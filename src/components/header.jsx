@@ -8,7 +8,7 @@ const header = () => {
     <>
     <nav className=' py-4 flex justify-between items-center'>
        <Link>
-         <img src="./dixhire.png" className=' h-20' />
+         <img src="./dixhire.png" className=' h-16' />
        </Link>
 
        <Button variant="outline">Button</Button>
