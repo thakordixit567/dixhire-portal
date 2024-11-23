@@ -2,7 +2,14 @@ import React from 'react'
 
 const Startpage = () => {
   return (
-    <div className=''>Startpage</div>
+   <main>
+     <section>
+       <h1> Find Your Dream Job</h1>
+     </section>
+     <div>
+         
+    </div>
+   </main>
   )
 }
 
