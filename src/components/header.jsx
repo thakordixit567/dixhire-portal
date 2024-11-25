@@ -1,21 +1,30 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useSearchParams } from "react-router-dom";
 import { Button } from "./ui/button";
 import {
   SignIn,
-  SignInButton,
+
   SignedIn,
   SignedOut,
   UserButton,
 } from "@clerk/clerk-react";
-import { PenBox } from "lucide-react";
+import { BriefcaseBusiness, Heart, PenBox } from "lucide-react";
 
 const header = () => {
    const [showSignIn, setshowSignin] = useState(false);
 
+   const [search, setSearch] = useSearchParams();
+
+   useEffect(() => {
+    if(search.get('sign-in')){
+      setshowSignin(true)
+    }
+   },[search]);
+
    const handleOverlayClick = (e) => {
     if (e.target === e.currentTarget) {
       setshowSignin(false);
+      setSearch({});
     }
    }
 
@@ -45,7 +54,24 @@ const header = () => {
          </Button>
           <Link to='/postjob'>
           </Link>
-            <UserButton />
+            <UserButton appearance={{
+              elements:{
+                avatarBox: " w-10 h-10",
+              }
+            }}>
+             <UserButton.MenuItems>
+               <UserButton.Link
+                  label="My Jobs"
+                  labelIcon={<BriefcaseBusiness size={15} />}
+                  href="/myjob"
+               />
+               <UserButton.Link
+                  label="Saved Jobs"
+                  labelIcon={<Heart size={15} />}
+                  href="/savedjob"
+               />
+             </UserButton.MenuItems>
+            </UserButton>
           </SignedIn>
         </div>
       </nav>
