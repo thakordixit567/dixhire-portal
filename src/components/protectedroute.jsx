@@ -14,6 +14,14 @@ const protectedroute = ({ children }) =>
 
  //check onbording status
 
+ if (
+   user !== undefined && 
+   !user?.unsafeMetadata?.role &&
+   pathname !== "/onbording"
+ )
+
+   return <Navigate to="/onbording" />
+
   return children;
 }
 

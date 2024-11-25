@@ -1,32 +1,28 @@
 import React, { useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { Button } from "./ui/button";
-import {
-  SignIn,
-
-  SignedIn,
-  SignedOut,
-  UserButton,
-} from "@clerk/clerk-react";
+import { SignIn, SignedIn, SignedOut, UserButton, useUser } from "@clerk/clerk-react";
 import { BriefcaseBusiness, Heart, PenBox } from "lucide-react";
 
 const header = () => {
-   const [showSignIn, setshowSignin] = useState(false);
+  const [showSignIn, setshowSignin] = useState(false);
 
-   const [search, setSearch] = useSearchParams();
+  const [search, setSearch] = useSearchParams();
 
-   useEffect(() => {
-    if(search.get('sign-in')){
-      setshowSignin(true)
+  const { user } =  useUser();
+
+  useEffect(() => {
+    if (search.get("sign-in")) {
+      setshowSignin(true);
     }
-   },[search]);
+  }, [search]);
 
-   const handleOverlayClick = (e) => {
+  const handleOverlayClick = (e) => {
     if (e.target === e.currentTarget) {
       setshowSignin(false);
       setSearch({});
     }
-   }
+  };
 
   return (
     <>
@@ -35,55 +31,60 @@ const header = () => {
           <img src="./dixhire.png" className=" h-16" />
         </Link>
 
-
         <div className=" flex gap-8">
           <SignedOut>
-            <Button variant="outline"   onClick={()=>setshowSignin(true)}>Login</Button>
+            <Button variant="outline" onClick={() => setshowSignin(true)}>
+              Login
+            </Button>
           </SignedOut>
-          
+
           <SignedIn>
-          {/* add a condition here */}
-         
-          <Button
-          variant='destructive' 
-          className=' rounded-full'
-        
-          >
-          <PenBox size={20} className="mr-2" />
-          Post Job
-         </Button>
-          <Link to='/postjob'>
+            {/* add a condition here */}
+
+          {user?.unsafeMetadata?.role === "recruiter" && (
+            <Link to="/postjob">
+            <Button variant="destructive" className=" rounded-full">
+              <PenBox size={20} className="mr-2" />
+              Post Job
+            </Button>
           </Link>
-            <UserButton appearance={{
-              elements:{
-                avatarBox: " w-10 h-10",
-              }
-            }}>
-             <UserButton.MenuItems>
-               <UserButton.Link
+          )
+          }
+
+            <UserButton
+              appearance={{
+                elements: {
+                  avatarBox: " w-10 h-10",
+                },
+              }}
+            >
+              <UserButton.MenuItems>
+                <UserButton.Link
                   label="My Jobs"
                   labelIcon={<BriefcaseBusiness size={15} />}
                   href="/myjob"
-               />
-               <UserButton.Link
+                />
+                <UserButton.Link
                   label="Saved Jobs"
                   labelIcon={<Heart size={15} />}
                   href="/savedjob"
-               />
-             </UserButton.MenuItems>
+                />
+              </UserButton.MenuItems>
             </UserButton>
           </SignedIn>
         </div>
       </nav>
-      {showSignIn && 
-        <div className=" fixed inset-0 flex items-center justify-center bg-black bg-opacity-50"
-        onClick={handleOverlayClick}
+      {showSignIn && (
+        <div
+          className=" fixed inset-0 flex items-center justify-center bg-black bg-opacity-50"
+          onClick={handleOverlayClick}
         >
           <SignIn
-          signUpForceRedirectUrl="/onbording"
-          fallbackRedirectUrl="/onbording"
+            signUpForceRedirectUrl="/onbording"
+            fallbackRedirectUrl="/onbording"
           />
-        </div>}
+        </div>
+      )}
     </>
   );
 };

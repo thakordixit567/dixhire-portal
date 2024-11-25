@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { useUser } from "@clerk/clerk-react";
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { BarLoader } from "react-spinners";
 
@@ -15,8 +15,19 @@ const onbording = () => {
       })
       .then(() => {
         navigate(role === "recruiter" ? "/postjob" : "/jobs");
+      })
+      .catch((err) => {
+        console.error("Error updating role:", err);
       });
   };
+
+  useEffect(() => {
+    if (user?.unsafeMetadata?.role){
+      navigate(
+        user?.unsafeMetadata?.role ===  "recruiter" ? "/postjob" : "/jobs"
+      );
+    }
+  }, [user]);
 
   if (!isLoaded) {
     return <BarLoader className="mb-4" width={"100%"} color="#36d7b7" />;
