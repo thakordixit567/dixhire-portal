@@ -9,7 +9,6 @@ module.exports = {
 	],
 	prefix: "",
 	theme: {
-		
 	  container: {
 		center: true,
 		padding: "2rem",
@@ -17,11 +16,8 @@ module.exports = {
 		  "2xl": "1400px",
 		},
 	  },
-	 
-	  extend:  {
-		fontfamily : {
-			primary: ['Bokor', "sans-serif"]
-		  },
+	  
+	  extend: {
 		colors: {
 		  border: "hsl(var(--border))",
 		  input: "hsl(var(--input))",
@@ -30,7 +26,7 @@ module.exports = {
 		  foreground: "hsl(var(--foreground))",
 		  primary: {
 			DEFAULT: "hsla(var(--primary))",
-          foreground: "hsla(var(--primary-foreground))",
+			foreground: "hsla(var(--primary-foreground))",
 		  },
 		  secondary: {
 			DEFAULT: "hsl(var(--secondary))",
@@ -56,7 +52,6 @@ module.exports = {
 			DEFAULT: "hsl(var(--card))",
 			foreground: "hsl(var(--card-foreground))",
 		  },
-		  
 		},
 		
 		borderRadius: {
@@ -79,8 +74,12 @@ module.exports = {
 		  "accordion-up": "accordion-up 0.2s ease-out",
 		},
 		
+		// Adding the Rampart One font
+		fontFamily: {
+		  rampart: ["Rampart One", "cursive"],
+		},
 	  },
-	  
 	},
 	plugins: [require("tailwindcss-animate")],
   };
+  
