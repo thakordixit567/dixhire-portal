@@ -15,6 +15,9 @@ const jobcard = ({
     <Card>
       <CardHeader>
          <CardTitle>{job.title}</CardTitle>
+         {!isMyJob && (
+          <Trash2Icon fill="red" size={18} className=" text-red-300 cursor-pointer" />
+         )}
       </CardHeader>
     </Card>
   );
