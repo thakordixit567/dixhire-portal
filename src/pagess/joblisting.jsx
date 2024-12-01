@@ -5,9 +5,19 @@ import { useEffect, useState } from "react";
 import { BarLoader } from "react-spinners";
 import Jobcard from "@/components/jobcard";
 import { getCompanies } from "@/api/apiCompanies";
-import { Form } from "react-router-dom";
+
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { City, State, Country } from "country-state-city";
 
 const joblisting = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -25,7 +35,11 @@ const joblisting = () => {
     searchQuery,
   });
 
-  const { fn: fnCompanies, data: companies } = useFetch(getCompanies);
+  const {
+    // loading: loadingCompanies,
+    data: companies,
+    fn: fnCompanies,
+  } = useFetch(getCompanies);
 
   useEffect(() => {
     if (isLoaded) fnCompanies();
@@ -40,7 +54,7 @@ const joblisting = () => {
     let formData = new FormData(e.target);
 
     const query = formData.get("search-query");
-    if(query) setSearchQuery(query);
+    if (query) setSearchQuery(query);
   };
 
   if (!isLoaded) {
@@ -69,7 +83,46 @@ const joblisting = () => {
       </form>
 
       <div>
-        
+        <Select value={location} onValueChange={(value) => setLocation(value)}>
+          <SelectTrigger>
+            <SelectValue
+              className=" font-sourgammy"
+              placeholder="Filter By Location"
+            />
+          </SelectTrigger>
+          <SelectContent className=" font-sourgammy">
+            <SelectGroup>
+              {State.getStatesOfCountry("IN").map(({name}) => {
+              return (
+                <SelectItem key={name} value={name}>{name}</SelectItem>
+              );
+              })}
+            </SelectGroup>
+          </SelectContent>
+        </Select>
+
+        <Select
+        value={company_id}
+        onValueChange={(value) => setCompany_id(value)}
+      >
+        <SelectTrigger>
+          <SelectValue placeholder="Filter by Company" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectGroup>
+            {companies?.map(({ name, id }) => {
+              return (
+                <SelectItem key={name} value={id}>
+                  {name}
+                </SelectItem>
+              );
+            })}
+          </SelectGroup>
+        </SelectContent>
+      </Select>
+      <Button variant="destructive" className=" sm:w-1/2">
+        Clear Filters
+      </Button>
       </div>
 
       {loadingJobs && (
