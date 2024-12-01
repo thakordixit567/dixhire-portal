@@ -22,14 +22,14 @@ const Startpage = () => {
   return (
     <main className=" flex flex-col gap-10 sm:gap-20 py-20 sm:py-20">
       <section className=" text-center">
-        <h1 className=" flex flex-col  items-center justify-center gradient-title text-3xl font-extrabold sm:text-6xl lg:text-6xl">
+        <h1 className=" flex flex-col font-doto items-center justify-center gradient-title text-4xl font-extrabold sm:text-6xl lg:text-7xl">
           Find Your Dream Job{""}
           <span className=" flex items-center gap-3 sm:gap-6">
             And Get{""}
             <span className=" text-indigo-400 underline"> Hired</span>
           </span>
         </h1>
-        <p className=" text-gray-300 sm:mt-4 md:mt-4 lg:mt-6 text-xs sm:text-xl">
+        <p className=" text-gray-300 font-sourgammy sm:mt-4 md:mt-4 lg:mt-6 text-xs sm:text-xl">
           Discover a multitude of job opportunities or identify the ideal
           candidate.
         </p>
@@ -39,7 +39,7 @@ const Startpage = () => {
         {/* buttons */}
 
         <Link to="/jobs">
-          <Button variant="blue" size="xl">
+          <Button  variant="blue" size="xl">
             Find Jobs
           </Button>
         </Link>
@@ -72,7 +72,7 @@ const Startpage = () => {
       <section className=" grid grid-cols-1 md:grid-cols-2 gap-4">
         <Card>
           <CardHeader>
-            <CardTitle>For Job Seekers</CardTitle>
+            <CardTitle className=" font-sourgammy">For Job Seekers</CardTitle>
           </CardHeader>
           <CardContent className=" font-semibold">
             Explore job openings and submit your applications, keep track of
@@ -82,7 +82,7 @@ const Startpage = () => {
 
         <Card>
           <CardHeader>
-            <CardTitle>For Employers</CardTitle>
+            <CardTitle className="font-sourgammy">For Employers</CardTitle>
           </CardHeader>
           <CardContent className=" font-semibold">
             Publish job listings, coordinate application management, and select

@@ -76,9 +76,11 @@ module.exports = {
 		
 		// Adding the Rampart One font
 		fontFamily: {
-		  rampart: ["Rampart One", "cursive"],
-		  lacquer: ["Lacquer", "system-ui"],
-
+		
+          doto: ["Doto","sans-serif"],   
+		  sourgammy: ["Sour Gummy", "sans-serif"],
+		  bebasneue: ["Bebas Neue","serif"],
+		 
 		},
 	  },
 	},
