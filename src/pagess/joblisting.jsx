@@ -57,6 +57,12 @@ const joblisting = () => {
     if (query) setSearchQuery(query);
   };
 
+  const clearFilters = () => {
+    setSearchQuery("");
+    setCompany_id("")
+    setLocation("");
+  };
+
   if (!isLoaded) {
     return <BarLoader className="mb-4" width={"100%"} color="#36d7b7" />;
   }
@@ -82,7 +88,7 @@ const joblisting = () => {
         </Button>
       </form>
 
-      <div>
+      <div className=" flex flex-col sm:flex-row gap-2">
         <Select value={location} onValueChange={(value) => setLocation(value)}>
           <SelectTrigger>
             <SelectValue
@@ -120,7 +126,7 @@ const joblisting = () => {
           </SelectGroup>
         </SelectContent>
       </Select>
-      <Button variant="destructive" className=" sm:w-1/2">
+      <Button onClick={clearFilters} variant="destructive" className=" sm:w-1/2">
         Clear Filters
       </Button>
       </div>

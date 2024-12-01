@@ -70,7 +70,8 @@
 .wmde-markdown ul {
   list-style-type: disc;
   padding-left: 25px;
-  color: white;
+  color: white ;
+
 }
 
 @layer base {

@@ -7,7 +7,7 @@ import {
   CardHeader,
   CardTitle,
 } from "./ui/card";
-import { Heart, MapIcon, Trash2Icon } from "lucide-react";
+import { Heart,  MapPinIcon,  Trash2Icon } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "./ui/button";
 import { saveJob } from "@/api/apiJobs";
@@ -42,7 +42,7 @@ const jobcard = ({
   }, [savedJob]);
 
   return (
-    <Card>
+    <Card className=" flex flex-col">
       <CardHeader>
         <CardTitle className=" font-sourgammy flex justify-between font-bold">
           {job.title}
@@ -60,14 +60,14 @@ const jobcard = ({
         <div className=" flex justify-between">
           {job.company && <img src={job.company.logo_url} className=" h-6 " />}
           <div className=" flex gap-2 items-center">
-            <MapIcon size={15} /> {job.location}
+            <MapPinIcon size={15} /> {job.location}
           </div>
         </div>
         <hr />
         {job.description}
       </CardContent>
       <CardFooter className=" flex gap-2">
-        <Link to={`job/${job.id}`} className=" flex-1">
+        <Link to={`/jobpage/${job.id}`} className=" flex-1">
           <Button variant="secondary" className=" w-full">
             More Details
           </Button>
