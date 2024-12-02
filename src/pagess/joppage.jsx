@@ -1,4 +1,4 @@
-import { getSingleJob } from "@/api/apiJobs";
+import { getSingleJob, updateHiringStatus } from "@/api/apiJobs";
 import useFetch from "@/hooks/usefetch";
 import { useUser } from "@clerk/clerk-react";
 import MDEditor from "@uiw/react-md-editor";
@@ -6,6 +6,16 @@ import { Briefcase, DoorClosed, DoorOpen, MapPinIcon } from "lucide-react";
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { BarLoader } from "react-spinners";
+
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const joppage = () => {
   const { isLoaded, user } = useUser();
@@ -18,6 +28,18 @@ const joppage = () => {
   } = useFetch(getSingleJob, {
     job_id: id,
   });
+
+  const { fn: fnHiringStatus, loading: loadingHiringStatus } = useFetch(
+    updateHiringStatus,
+    {
+      job_id: id,
+    }
+  );
+
+  const handleStatusChange = (value) => {
+    const isOpen = value === "open";
+    fnHiringStatus(isOpen).then(() => fnJobs());
+  };
 
   useEffect(() => {
     if (isLoaded) fnJobs();
@@ -49,27 +71,48 @@ const joppage = () => {
           <Briefcase /> {jobs?.applications?.length} Applications
         </div>
         <div className=" flex gap-2">
-           {
-            jobs?.isOpen? (
-              <>
-               <DoorOpen /> Open
-              </>
-            ): (
-              <>
-               <DoorClosed /> Closed
-              </>
-            )
-           }
+          {jobs?.isOpen ? (
+            <>
+              <DoorOpen /> Open
+            </>
+          ) : (
+            <>
+              <DoorClosed /> Closed
+            </>
+          )}
         </div>
       </div>
+
+      {jobs?.recruiter_id === user?.id && (
+        <Select onValueChange={handleStatusChange}>
+          <SelectTrigger
+            className={`w-full ${
+              jobs?.isOpen ? " bg-green-400" : " bg-red-950"
+            }`}
+          >
+            <SelectValue
+              className=" font-sourgammy"
+              placeholder={
+                "Hiring Status" + (jobs?.isOpen ? "(Open)" : "(Closed)")
+              }
+            />
+          </SelectTrigger>
+          <SelectContent className=" font-sourgammy">
+            <SelectItem value="open">Open</SelectItem>
+            <SelectItem value="closed">Closed</SelectItem>
+          </SelectContent>
+        </Select>
+      )}
 
       <h2 className=" text-2xl sm:text-3xl font-bold">About the job</h2>
       <p className=" sm:text-xl">{jobs?.description}</p>
 
-      <h2 className=" text-2xl sm:text-3xl font-bold">What We Are Looking For</h2>
-      <MDEditor.Markdown 
-      source= {jobs?.requirements} 
-      className=" bg-transparent  sm:text-lg" 
+      <h2 className=" text-2xl sm:text-3xl font-bold">
+        What We Are Looking For
+      </h2>
+      <MDEditor.Markdown
+        source={jobs?.requirements}
+        className="bg-transparent  sm:text-lg"
       />
     </div>
   );
