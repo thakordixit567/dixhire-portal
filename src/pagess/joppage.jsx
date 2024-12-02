@@ -6,6 +6,7 @@ import { Briefcase, DoorClosed, DoorOpen, MapPinIcon } from "lucide-react";
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { BarLoader } from "react-spinners";
+import ApplyJobDrawer from "@/components/applyJob";
 
 import {
   Select,
@@ -83,37 +84,46 @@ const joppage = () => {
         </div>
       </div>
 
+      {loadingHiringStatus && <BarLoader width={"100%"} color="#36d7b7" />}
       {jobs?.recruiter_id === user?.id && (
         <Select onValueChange={handleStatusChange}>
           <SelectTrigger
-            className={`w-full ${
-              jobs?.isOpen ? " bg-green-400" : " bg-red-950"
-            }`}
+            className={`w-full ${jobs?.isOpen ? "bg-green-950" : "bg-red-950"}`}
           >
             <SelectValue
-              className=" font-sourgammy"
               placeholder={
-                "Hiring Status" + (jobs?.isOpen ? "(Open)" : "(Closed)")
+                "Hiring Status " + (jobs?.isOpen ? "( Open )" : "( Closed )")
               }
             />
           </SelectTrigger>
-          <SelectContent className=" font-sourgammy">
+          <SelectContent>
             <SelectItem value="open">Open</SelectItem>
             <SelectItem value="closed">Closed</SelectItem>
           </SelectContent>
         </Select>
       )}
 
-      <h2 className=" text-2xl sm:text-3xl font-bold">About the job</h2>
-      <p className=" sm:text-xl">{jobs?.description}</p>
+      <h2 className=" text-3xl font-bebasneue tracking-wider sm:text-4xl font-bold">
+        About the job
+      </h2>
+      <p className=" font-semibold sm:text-xl">{jobs?.description}</p>
 
-      <h2 className=" text-2xl sm:text-3xl font-bold">
+      <h2 className=" text-3xl sm:text-4xl font-bebasneue tracking-wider font-bold">
         What We Are Looking For
       </h2>
       <MDEditor.Markdown
         source={jobs?.requirements}
         className="bg-transparent  sm:text-lg"
       />
+
+      {jobs?.recruiter_id !== user?.id && (
+        <ApplyJobDrawer
+         jobs={jobs} 
+         user={user} 
+         fetchJob={fnJobs}
+         applied={jobs?.applications?.find((ap) => ap.candidate_id === user.id)}
+          />
+      )}
     </div>
   );
 };
