@@ -64,7 +64,7 @@ const joppage = () => {
       </div>
 
       <h2 className=" text-2xl sm:text-3xl font-bold">About the job</h2>
-      <p className=" sm:text-lg">{jobs?.description}</p>
+      <p className=" sm:text-xl">{jobs?.description}</p>
 
       <h2 className=" text-2xl sm:text-3xl font-bold">What We Are Looking For</h2>
       <MDEditor.Markdown 
