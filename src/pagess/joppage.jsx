@@ -124,6 +124,10 @@ const joppage = () => {
          applied={jobs?.applications?.find((ap) => ap.candidate_id === user.id)}
           />
       )}
+
+      
+        
+      
     </div>
   );
 };

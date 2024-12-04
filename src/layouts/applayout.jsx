@@ -6,7 +6,7 @@ import Header from './../components/header'
 const Applayout = () => {
   return (
     <div>
-      <div className='grid-background'>
+      <div className='grid-background' aria-hidden="true">
         <main className=' min-h-screen container'>
         <Header/>
         <Outlet/>
