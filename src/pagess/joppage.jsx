@@ -7,6 +7,7 @@ import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { BarLoader } from "react-spinners";
 import ApplyJobDrawer from "@/components/applyJob";
+import Applicationcard from "@/components/applicationcard";
 
 import {
   Select,
@@ -118,16 +119,28 @@ const joppage = () => {
 
       {jobs?.recruiter_id !== user?.id && (
         <ApplyJobDrawer
-         jobs={jobs} 
-         user={user} 
-         fetchJob={fnJobs}
-         applied={jobs?.applications?.find((ap) => ap.candidate_id === user.id)}
-          />
+          jobs={jobs}
+          user={user}
+          fetchJob={fnJobs}
+          applied={jobs?.applications?.find(
+            (ap) => ap.candidate_id === user.id
+          )}
+        />
       )}
-
-      
-        
-      
+      {
+        jobs?.applications?.length > 0 && jobs?.recruiter_id === user?.id && (
+          <div className=" flex flex-col gap-2">
+            <h2 className="text-3xl sm:text-4xl font-bebasneue tracking-wider font-bold">
+              Applications
+            </h2>
+            {jobs?.applications.map((applications)=> {
+              return (
+                <Applicationcard key={applications.id} applications={applications} />
+              );
+            })}
+          </div>
+        )
+      }
     </div>
   );
 };
