@@ -1,4 +1,3 @@
-import jobcard from "@/components/jobcard";
 import supabaseClient, { supabaseUrl } from "@/utils/supabase";
 
 export async function getApplyJob(token, _, jobData) {
@@ -9,7 +8,7 @@ export async function getApplyJob(token, _, jobData) {
 
   const { error: storageError } = await supabase.storage
     .from("resumes")
-    .upload(fileName, jobcard.resume);
+    .upload(fileName, jobData.resume);
 
   if (storageError) {
     console.error("Error uploading resumes!", storageError);

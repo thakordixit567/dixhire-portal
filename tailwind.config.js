@@ -80,7 +80,7 @@ module.exports = {
           doto: ["Doto","sans-serif"],   
 		  sourgammy: ["Sour Gummy", "sans-serif"],
 		  bebasneue: ["Bebas Neue","serif"],
-		 
+		  kanit: ["Kanit", " sans-serif"],
 		},
 	  },
 	},
