@@ -2,7 +2,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { zodResolver } from "@hookform/resolvers/zod";
 import React, { useEffect } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 import {
   Select,
@@ -17,6 +17,7 @@ import { getCompanies } from "@/api/apiCompanies";
 import useFetch from "@/hooks/usefetch";
 import { useUser } from "@clerk/clerk-react";
 import { BarLoader } from "react-spinners";
+import { Navigate } from "react-router-dom";
 
 const schema = z.object({
   title: z.string().min(1, { message: "Tile Is Require" }),
@@ -27,8 +28,7 @@ const schema = z.object({
 });
 
 const postjob = () => {
- 
-  const { isLoaded, user} = useUser();
+  const { isLoaded, user } = useUser();
 
   const {
     register,
@@ -48,7 +48,6 @@ const postjob = () => {
     loading: loadingCompanies,
     data: companies,
     fn: fnCompanies,
-    lo
   } = useFetch(getCompanies);
 
   useEffect(() => {
@@ -59,66 +58,89 @@ const postjob = () => {
     return <BarLoader className="mb-4" width={"100%"} color="#36d7b7" />;
   }
 
+  if (user?.unsafeMetadata?.role !== "recruiter") {
+    return <Navigate to="/jobs" />;
+  }
+
   return (
     <div>
       <h1 className=" gradient-title font-doto font-extrabold pb-8 text-center text-5xl sm:text-6xl">
         Post A Job
       </h1>
 
-      <form>
+      <form className=" flex flex-col gap-4 p-4 pb-0">
         <Input placeholder="Job Title" {...register("title")} />
         {errors.title && (
           <p className=" text-red-500"> {errors.title.message} </p>
         )}
-      </form>
 
-      <Textarea placeholder="Job Description" {...register("description")} />
-      {errors.description && (
-        <p className="text-red-500">{errors.description.message}</p>
-      )}
+        <Textarea placeholder="Job Description" {...register("description")} />
+        {errors.description && (
+          <p className="text-red-500">{errors.description.message}</p>
+        )}
 
-      <Select 
-      //value={location} 
-      //onValueChange={(value) => setLocation(value)}
-      >
-        <SelectTrigger>
-          <SelectValue
-            className=" font-sourgammy"
-            placeholder="Filter By Location"
+        <div className=" flex gap-4 items-center">
+          <Controller
+            name="company_id"
+            control={control}
+            render={({ field }) => (
+              <Select
+                value={field.value}
+                onValueChange={field.onChange}
+              >
+                <SelectTrigger>
+                  <SelectValue
+                    className=" font-sourgammy"
+                    placeholder="Filter By Location"
+                  />
+                </SelectTrigger>
+                <SelectContent className=" font-sourgammy">
+                  <SelectGroup>
+                    {State.getStatesOfCountry("IN").map(({ name }) => {
+                      return (
+                        <SelectItem key={name} value={name}>
+                          {name}
+                        </SelectItem>
+                      );
+                    })}
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+            )}
           />
-        </SelectTrigger>
-        <SelectContent className=" font-sourgammy">
-          <SelectGroup>
-            {State.getStatesOfCountry("IN").map(({ name }) => {
-              return (
-                <SelectItem key={name} value={name}>
-                  {name}
-                </SelectItem>
-              );
-            })}
-          </SelectGroup>
-        </SelectContent>
-      </Select>
 
-      <Select
-        //value={company_id}
-       // onValueChange={(value) => setCompany_id(value)}
-      >
-        <SelectTrigger>
-          <SelectValue placeholder="Filter by Company" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectGroup>
-            {companies?.map(({ name, id }) => {
-              return (
-                <SelectItem key={name} value={id}>
-                  {name}
-                </SelectItem>
-              );
-            })}
-          </SelectGroup>
-        </SelectContent>
-      </Select>
+
+          <Controller
+            name="location"
+            control={control}
+            render={({ field }) => (
+          <Select
+        value={field.value}
+        onValueChange={field.onChange}
+          >
+            <SelectTrigger>
+              <SelectValue placeholder="Filter by Company" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                {companies?.map(({ name, id }) => {
+                  return (
+                    <SelectItem key={name} value={id}>
+                      {name}
+                    </SelectItem>
+                  );
+                })}
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+          )}
+          />
+
+          
+
+          {/*  Add Company Drawer  */}
+        </div>
+      </form>
     </div>
   );
 };
