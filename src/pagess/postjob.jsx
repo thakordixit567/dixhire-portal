@@ -18,6 +18,8 @@ import useFetch from "@/hooks/usefetch";
 import { useUser } from "@clerk/clerk-react";
 import { BarLoader } from "react-spinners";
 import { Navigate } from "react-router-dom";
+import MDEditor from "@uiw/react-md-editor";
+import { Button } from "@/components/ui/button";
 
 const schema = z.object({
   title: z.string().min(1, { message: "Tile Is Require" }),
@@ -84,10 +86,7 @@ const postjob = () => {
             name="company_id"
             control={control}
             render={({ field }) => (
-              <Select
-                value={field.value}
-                onValueChange={field.onChange}
-              >
+              <Select value={field.value} onValueChange={field.onChange}>
                 <SelectTrigger>
                   <SelectValue
                     className=" font-sourgammy"
@@ -109,37 +108,60 @@ const postjob = () => {
             )}
           />
 
-
           <Controller
             name="location"
             control={control}
             render={({ field }) => (
-          <Select
-        value={field.value}
-        onValueChange={field.onChange}
-          >
-            <SelectTrigger>
-              <SelectValue placeholder="Filter by Company" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                {companies?.map(({ name, id }) => {
-                  return (
-                    <SelectItem key={name} value={id}>
-                      {name}
-                    </SelectItem>
-                  );
-                })}
-              </SelectGroup>
-            </SelectContent>
-          </Select>
-          )}
+              <Select value={field.value} onValueChange={field.onChange}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Filter by Company">
+                    {field.value
+                      ? companies?.find((com) => com.id === Number(field.value))
+                          ?.name
+                      : "Company"}
+                  </SelectValue>
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    {companies?.map(({ name, id }) => {
+                      return (
+                        <SelectItem key={name} value={id}>
+                          {name}
+                        </SelectItem>
+                      );
+                    })}
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+            )}
           />
-
-          
 
           {/*  Add Company Drawer  */}
         </div>
+        {errors.location && (
+          <p className="text-red-500">{errors.location.message}</p>
+        )}
+        {errors.company_id && (
+          <p className="text-red-500">{errors.company_id.message}</p>
+        )}
+
+        <Controller
+          name="requirements"
+          control={control}
+          render={({ field }) => (
+            <MDEditor 
+            value={field.value} onChange={field.onChange}
+            />
+          )}
+          
+        />
+        {errors.requirements && (
+          <p className="text-red-500">{errors.requirements.message}</p>
+        )}
+
+        <Button type="submit" variant="blue" size="lg" className="mt-2">
+          Submit
+        </Button>
       </form>
     </div>
   );
