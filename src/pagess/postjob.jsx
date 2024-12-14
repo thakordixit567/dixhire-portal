@@ -17,9 +17,10 @@ import { getCompanies } from "@/api/apiCompanies";
 import useFetch from "@/hooks/usefetch";
 import { useUser } from "@clerk/clerk-react";
 import { BarLoader } from "react-spinners";
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import MDEditor from "@uiw/react-md-editor";
 import { Button } from "@/components/ui/button";
+import { newJobAdding } from "@/api/apiJobs";
 
 const schema = z.object({
   title: z.string().min(1, { message: "Tile Is Require" }),
@@ -31,6 +32,7 @@ const schema = z.object({
 
 const postjob = () => {
   const { isLoaded, user } = useUser();
+  const navigate = useNavigate();
 
   const {
     register,
@@ -56,6 +58,25 @@ const postjob = () => {
     if (isLoaded) fnCompanies();
   }, [isLoaded]);
 
+  const {
+    loading: loadingCreateJob,
+    error: errorCreateJob,
+    data: dataCreateJob,
+    fn: fnCreateJob,
+  } = useFetch(newJobAdding);
+
+  const onSubmit = (data) => {
+    fnCreateJob({
+      ...data,
+      recruiter_id: user.id,
+      isOpen: true,
+    });
+  };
+
+  useEffect(() => {
+   if(dataCreateJob?.length>0)navigate('/jobs')
+  }, [loadingCreateJob]);
+
   if (!isLoaded || loadingCompanies) {
     return <BarLoader className="mb-4" width={"100%"} color="#36d7b7" />;
   }
@@ -70,7 +91,10 @@ const postjob = () => {
         Post A Job
       </h1>
 
-      <form className=" flex flex-col gap-4 p-4 pb-0">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className=" flex flex-col gap-4 p-4 pb-0"
+      >
         <Input placeholder="Job Title" {...register("title")} />
         {errors.title && (
           <p className=" text-red-500"> {errors.title.message} </p>
@@ -83,14 +107,14 @@ const postjob = () => {
 
         <div className=" flex gap-4 items-center">
           <Controller
-            name="company_id"
+            name="location"
             control={control}
             render={({ field }) => (
               <Select value={field.value} onValueChange={field.onChange}>
                 <SelectTrigger>
                   <SelectValue
                     className=" font-sourgammy"
-                    placeholder="Filter By Location"
+                    placeholder="Job Location"
                   />
                 </SelectTrigger>
                 <SelectContent className=" font-sourgammy">
@@ -109,7 +133,7 @@ const postjob = () => {
           />
 
           <Controller
-            name="location"
+            name="company_id"
             control={control}
             render={({ field }) => (
               <Select value={field.value} onValueChange={field.onChange}>
@@ -149,16 +173,20 @@ const postjob = () => {
           name="requirements"
           control={control}
           render={({ field }) => (
-            <MDEditor 
-            value={field.value} onChange={field.onChange}
-            />
+            <MDEditor value={field.value} onChange={field.onChange} />
           )}
-          
         />
         {errors.requirements && (
           <p className="text-red-500">{errors.requirements.message}</p>
         )}
 
+        {errorCreateJob?.message && (
+          <p className="text-red-500">{errorCreateJob?.message}</p>
+        )}
+
+        {loadingCreateJob && (
+          <BarLoader className="mb-4" width={"100%"} color="#36d7b7" />
+        )}
         <Button type="submit" variant="blue" size="lg" className="mt-2">
           Submit
         </Button>
