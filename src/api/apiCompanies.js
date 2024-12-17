@@ -28,7 +28,7 @@ export async function addNewCompany(token, _, companyData) {
     return null;
   }
 
-  const logo_url = `${supabaseUrl}/storage/v1/object/public/resumes/${fileName}`;
+  const logo_url = `${supabaseUrl}/storage/v1/object/public/company-logo/${fileName}`;
 
   const { data, error } = await supabase
     .from("companies")

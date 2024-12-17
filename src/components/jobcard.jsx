@@ -25,7 +25,8 @@ const jobcard = ({
     fn: fnSavedJob,
     data: savedJob,
     loading: loadingSaveJob,
-  } = useFetch(saveJob,{alreadySaved: saved,});
+  } = useFetch(saveJob);
+  
 
   const { user } = useUser();
 
@@ -67,7 +68,7 @@ const jobcard = ({
         {job.description}
       </CardContent>
       <CardFooter className=" flex gap-2">
-        <Link to={`/jobpage/${job.id}`} className=" flex-1">
+        <Link to={`/job/${job.id}`} className=" flex-1">
           <Button variant="secondary" className=" w-full">
             More Details
           </Button>
