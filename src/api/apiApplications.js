@@ -49,3 +49,18 @@ export async function updateApplications(token,{ job_id},status) {
 
   return data;
 }
+
+export async function gettApplications(token, { user_id }) {
+  const supabase = await supabaseClient(token);
+  const { data, error } = await supabase.from("applications")
+  .from("applications")
+  .eq("candidate_id", user_id)
+  .select();
+
+  if (error || data.length===0) {
+    console.error("Error Updating Applications!", error);
+    return null;
+  }
+
+  return data;
+}
