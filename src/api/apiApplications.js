@@ -55,10 +55,10 @@ export async function gettApplications(token, { user_id }) {
   const { data, error } = await supabase.from("applications")
   .from("applications")
   .eq("candidate_id", user_id)
-  .select();
+  .select("*, job:jobs(title, company:companies(name))");
 
-  if (error || data.length===0) {
-    console.error("Error Updating Applications!", error);
+  if (error) {
+    console.error("Error Fetching Application Status!", error);
     return null;
   }
 
